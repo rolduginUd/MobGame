@@ -92,3 +92,4 @@ onkeydown = d => controller[d.key] = 1;
 onkeyup = d => controller[d.key] = 0;
 
 loop();
+// hi vitia
