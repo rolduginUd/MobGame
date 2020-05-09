@@ -1,7 +1,7 @@
 let canvas = document.createElement("canvas"); // створюємо канвас
 let ctx = canvas.getContext("2d");
 canvas.width = document.documentElement.clientWidth; // розміри "вікна"
-canvas.height = 800;
+canvas.height = 500;
 document.body.appendChild(canvas); // відображаєм вікно
 
 let perm = [];
