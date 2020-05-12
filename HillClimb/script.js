@@ -51,7 +51,7 @@ let car = new function () { // гравець і його параметри
             this.rotate -=(this.rotate - angle) * 0.5;
             this.speedX = this.speedX - (angle - this.rotate);
         }   
-        this.speedX += (controller.ArrowLeft - controller.ArrowRight) * 0.05;
+        this.speedX += (controller.a - controller.d) * 0.05;
         this.rotate -= this.speedX * 0.1;
         if(this.rotate > Math.PI) this.rotate = -Math.PI;
         if(this.rotate < -Math.PI) this.rotate = Math.PI;
@@ -68,9 +68,14 @@ let car = new function () { // гравець і його параметри
 let time = 0; // час для генерації дороги
 let speed = 0;
 let isplay = true;
-let controller = {ArrowUp:0, ArrowDown:0, ArrowLeft:0, ArrowRight:0};
+let controller = {
+    w: 0,
+    s: 0, 
+    a: 0,
+    d: 0
+};
 function loop() {
-    speed -= (speed - (controller.ArrowUp - controller.ArrowDown)) * 0.01;
+    speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
     ctx.fillStyle = "#19f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
