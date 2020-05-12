@@ -1,8 +1,8 @@
-let canvas = document.createElement("canvas"); // створюємо канвас
+let canvas = document.createElement("canvas"); 
 let ctx = canvas.getContext("2d");
 canvas.width = document.documentElement.clientWidth; // розміри "вікна"
 canvas.height = 500;
-document.body.appendChild(canvas); // відображаєм вікно
+document.body.appendChild(canvas); 
 
 let perm = [];
 while(perm.length < 255) {
@@ -39,23 +39,22 @@ let car = new function () { // гравець і його параметри
             onGround = true;
         }
 
-        if(!isplay || onGround && Math.abs(this.rotate) > Math.PI * 0.5) { //странно работає, треба фіксить (при перевороті зациклює анімацію переворота)
-            isplay = false;
-            this.speedX = 1;
+        if(onGround && Math.abs(this.rotate) > Math.PI) { //странно работає, треба фіксить (при перевороті зациклює анімацію переворота)
+            this.speedX = 1;  
         }
 
         let angle = Math.atan2((p2 - 15) - this.y, (this.x + 5) - this.x)
         this.y += this.speedY;
 
-        if(onGround && isplay) { // чи знаходиться гравець на землі
+        if(onGround) { // чи знаходиться гравець на землі
             this.rotate -=(this.rotate - angle) * 0.5;
             this.speedX = this.speedX - (angle - this.rotate);
-        }   
+        } 
         this.speedX += (controller.a - controller.d) * 0.05;
         this.rotate -= this.speedX * 0.1;
         if(this.rotate > Math.PI) this.rotate = -Math.PI;
         if(this.rotate < -Math.PI) this.rotate = Math.PI;
-
+        
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotate);
@@ -67,7 +66,6 @@ let car = new function () { // гравець і його параметри
 
 let time = 0; // час для генерації дороги
 let speed = 0;
-let isplay = true;
 let controller = {
     w: 0,
     s: 0, 
@@ -97,4 +95,3 @@ onkeydown = d => controller[d.key] = 1;
 onkeyup = d => controller[d.key] = 0;
 
 loop();
-// hi vitia
