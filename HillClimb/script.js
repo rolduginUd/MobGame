@@ -1,7 +1,7 @@
 let canvas = document.createElement("canvas"); 
 let ctx = canvas.getContext("2d");
 canvas.width = document.documentElement.clientWidth; // розміри "вікна"
-canvas.height = 500;
+canvas.height = document.documentElement.clientHeight - 100;
 document.body.appendChild(canvas); 
 
 let perm = [];
@@ -27,8 +27,8 @@ let car = new function () { // гравець і його параметри
     this.img = new Image();
     this.img.src = "img/car.png"
     this.draw = function () {
-        let p1 = canvas.height - noise(time + this.x) * 0.25;
-        let p2 = canvas.height - noise(time + 5 + this.x) * 0.25;
+        let p1 = canvas.height - noise(time + this.x) * 0.25;    // оце тоже впливає 
+        let p2 = canvas.height - noise(time + 5 + this.x) * 0.25;//                на положення картінки
 
         let onGround = false;
         if(p1 - 15 > this.y) {
@@ -40,7 +40,7 @@ let car = new function () { // гравець і його параметри
         }
 
         if(onGround && Math.abs(this.rotate) > Math.PI) { //странно работає, треба фіксить (при перевороті зациклює анімацію переворота)
-            this.speedX = 1;  
+            alert("yes");
         }
 
         let angle = Math.atan2((p2 - 15) - this.y, (this.x + 5) - this.x)
