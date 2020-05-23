@@ -1,7 +1,17 @@
-let canvas = document.createElement("canvas"); 
+let canvas = document.getElementById('canvas'); 
 let ctx = canvas.getContext("2d");
-canvas.width = document.documentElement.clientWidth; // розміри "вікна"
-canvas.height = document.documentElement.clientHeight - 100;
+if(window.matchMedia('(max-width: 768px)').matches){
+    function inRad(num) {
+        return num * Math.PI / 180;
+    }
+    canvas.width = document.documentElement.clientWidth; // розміри "вікна"
+    canvas.height = document.documentElement.clientHeight;
+    ctx.rotate(inRad(0));
+} else {
+    canvas.width = document.documentElement.clientWidth; // розміри "вікна"
+    canvas.height = document.documentElement.clientHeight;
+  }
+
 document.body.appendChild(canvas); 
 
 let perm = [];
@@ -25,10 +35,10 @@ let car = new function () { // гравець і його параметри
     this.rotate = 0;
 
     this.img = new Image();
-    this.img.src = "img/car.png"
+    this.img.src = "img/red_car.png"
     this.draw = function () {
-        let p1 = canvas.height - noise(time + this.x) * 0.25;    // оце тоже впливає 
-        let p2 = canvas.height - noise(time + 5 + this.x) * 0.25;//                на положення картінки
+        let p1 = canvas.height - noise(time + this.x) * 0.47;    // оце тоже впливає 
+        let p2 = canvas.height - noise(time + 5 + this.x) * 0.47;//                на положення картінки
 
         let onGround = false;
         if(p1 - 15 > this.y) {
@@ -40,7 +50,7 @@ let car = new function () { // гравець і його параметри
         }
 
         if(onGround && Math.abs(this.rotate) > Math.PI) { //странно работає, треба фіксить (при перевороті зациклює анімацію переворота)
-            alert("yes");
+            alert("Да блять! Сработала провєрка на переворот тачіли");
         }
 
         let angle = Math.atan2((p2 - 15) - this.y, (this.x + 5) - this.x)
@@ -78,7 +88,7 @@ function loop() {
     ctx.fillStyle = "#19f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "yellow";
     ctx.beginPath();
     ctx.moveTo(0, canvas.height);
     for(let i = 0; i < canvas.width; i++)
