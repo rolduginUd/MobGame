@@ -1,6 +1,8 @@
 let canvas = document.getElementById('canvas'); 
 let ctx = canvas.getContext("2d");
 
+// $('#myModal').modal(options)
+
 stopBtn = document.querySelector('.stop');
 runBtn = document.querySelector('.run');
 
@@ -71,7 +73,6 @@ let car = new function () { // гравець і його параметри
             this.rotate = 0;
         }
 
-        runBtn.addEven
 
         if(onGround) { // чи знаходиться гравець на землі
             this.rotate -=(this.rotate - angle) * 0.5;
@@ -108,14 +109,13 @@ const controller = {
 // кон
 runBtn.ontouchstart = () => {
     controller.w = 1;
-    speed -= (speed - (controller.w - controller.s)) * 0.01;
+    
 }
 runBtn.ontouchend = () => {
     controller.w = 0;
 }
 stopBtn.ontouchstart = () => {
     controller.s = 1;
-    speed -= (speed - (controller.w - controller.s)) * 0.01;
 }
 stopBtn.ontouchend = () => {
     controller.s = 0;
