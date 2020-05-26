@@ -1,5 +1,27 @@
 /* Треба написать медіа запрос під мобілу і виставить розміри вікна */
-body{
-    height: 1000px;
+.stop {
+    position: absolute;
+    width: 50px;
+    height: 100px;
     background-color: black;
+    left: 50px;
+    bottom: 30px;
+    display: none;
 }
+.run {
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background-color: black;
+    right: 50px;
+    bottom: 30px;
+    display: none;
+}
+/* @media screen and (max-width: 768px) {
+    .run{
+        display: block;
+    }
+    .stop {
+        display: block;
+    }
+} */

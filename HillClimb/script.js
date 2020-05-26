@@ -1,11 +1,17 @@
 let canvas = document.getElementById('canvas'); 
 let ctx = canvas.getContext("2d");
-    window.addEventListener("orientationchange", function() {
-        canvas.width = document.documentElement.clientWidth; 
-        canvas.height = document.documentElement.clientHeight;
-    }, false);
-   
 
+setInterval(() => {
+    checkOrientation();
+}, 200);
+const stop = document.getElementsByClassName('stop');
+const checkOrientation = () => {
+    if (canvas.width !== document.documentElement.clientWidth) {
+        canvas.width = document.documentElement.clientWidth; 
+        canvas.height = document.documentElement.clientHeight-5;
+        
+    }
+}
 document.body.appendChild(canvas); 
 
 let perm = [];
@@ -22,7 +28,7 @@ let noise = x => {
 }
 
 let car = new function () { // гравець і його параметри
-    this.x = canvas.width/2;
+    this.x = canvas.width;
     this.y = 0;
     this.speedY = 0;
     this.speedX = 0;
@@ -44,12 +50,19 @@ let car = new function () { // гравець і його параметри
             onGround = true;
         }
 
-        if(onGround && Math.abs(this.rotate) > Math.PI) { //странно работає, треба фіксить (при перевороті зациклює анімацію переворота)
-            alert("Да блять! Сработала провєрка на переворот тачіли");
-        }
+    
 
         let angle = Math.atan2((p2 - 15) - this.y, (this.x + 5) - this.x)
         this.y += this.speedY;
+
+        if(onGround && Math.abs(this.rotate) > 1.6) { // смерть пожила
+            alert("Шо лох, наєбнувся?)");
+            this.x = canvas.width/2;
+            this.y = 0;
+            this.speedY = 0;
+            this.speedX = 0;
+            this.rotate = 0;
+        }
 
         if(onGround) { // чи знаходиться гравець на землі
             this.rotate -=(this.rotate - angle) * 0.5;
@@ -65,7 +78,6 @@ let car = new function () { // гравець і його параметри
         {
             this.rotate = Math.PI;
         } 
-        
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotate);
@@ -76,7 +88,7 @@ let car = new function () { // гравець і його параметри
 
 let time = 0; // час для генерації дороги
 let speed = 0;
-let controller = {
+const controller = {
     w: 0,
     s: 0,
     a: 0,
@@ -98,6 +110,7 @@ function loop() {
     ctx.fill();
 
     car.draw();
+
     requestAnimationFrame(loop);
 }
 
