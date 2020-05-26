@@ -8,7 +8,7 @@ runBtn = document.querySelector('.run');
 
 setInterval(() => {
     checkOrientation();
-}, 100);
+}, 50);
 const stop = document.getElementsByClassName('stop');
 const checkOrientation = () => {
     if (canvas.width !== document.documentElement.clientWidth) {
@@ -59,9 +59,7 @@ let car = new function () { // гравець і його параметри
             onGround = true;
         }
 
-    
-
-        let angle = Math.atan2((p2 - 15) - this.y, (this.x + 5) - this.x)
+        let angle = Math.atan2((p2 - 15) - this.y, (this.x + 5) - this.x);
         this.y += this.speedY;
 
         if(onGround && Math.abs(this.rotate) > 1.6) { // смерть пожила
@@ -71,8 +69,37 @@ let car = new function () { // гравець і його параметри
             this.speedY = 0;
             this.speedX = 0;
             this.rotate = 0;
+            location.reload();
         }
 
+        // контроллер для моб.
+        runBtn.ontouchstart = () => {
+            controller.w = 1;
+        }
+        runBtn.ontouchend = () => {
+            controller.w = 0;
+        }
+        stopBtn.ontouchstart = () => {
+            controller.s = 1;
+        }
+        stopBtn.ontouchend = () => {
+            controller.s = 0;
+        }
+        
+        if(!onGround) { // чи знаходиться гравець на землі
+            runBtn.ontouchstart = () => {
+                controller.d = 1;
+            }
+            runBtn.ontouchend = () => {
+                controller.d = 0;
+            }
+            stopBtn.ontouchstart = () => {
+                controller.a = 1;
+            }
+            stopBtn.ontouchend = () => {
+                controller.a = 0;
+            }
+        } 
 
         if(onGround) { // чи знаходиться гравець на землі
             this.rotate -=(this.rotate - angle) * 0.5;
@@ -83,6 +110,7 @@ let car = new function () { // гравець і його параметри
         this.rotate -= this.speedX * 0.1;
         if(this.rotate > Math.PI){
             this.rotate = -Math.PI;
+            console.log('+10');
         } 
         if(this.rotate < -Math.PI)
         {
@@ -96,8 +124,7 @@ let car = new function () { // гравець і його параметри
     }
 }
 
-
-let time = 0; // час для генерації дороги
+let time = 0; 
 let speed = 0;
 const controller = {
     w: 0,
@@ -105,21 +132,6 @@ const controller = {
     a: 0,
     d: 0
 };
-
-// кон
-runBtn.ontouchstart = () => {
-    controller.w = 1;
-    
-}
-runBtn.ontouchend = () => {
-    controller.w = 0;
-}
-stopBtn.ontouchstart = () => {
-    controller.s = 1;
-}
-stopBtn.ontouchend = () => {
-    controller.s = 0;
-}
 
 
 function loop() {
