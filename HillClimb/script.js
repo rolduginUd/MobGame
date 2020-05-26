@@ -1,16 +1,23 @@
 let canvas = document.getElementById('canvas'); 
 let ctx = canvas.getContext("2d");
 
+stopBtn = document.querySelector('.stop');
+runBtn = document.querySelector('.run');
+
 setInterval(() => {
     checkOrientation();
-}, 200);
+}, 100);
 const stop = document.getElementsByClassName('stop');
 const checkOrientation = () => {
     if (canvas.width !== document.documentElement.clientWidth) {
         canvas.width = document.documentElement.clientWidth; 
-        canvas.height = document.documentElement.clientHeight-5;
-        
+        canvas.height = document.documentElement.clientHeight-5;      
     }
+}
+
+if (window.matchMedia("(max-width: 1000px)").matches) {
+    stopBtn.style.display = 'block';
+    runBtn.style.display = 'block';
 }
 document.body.appendChild(canvas); 
 
@@ -64,6 +71,8 @@ let car = new function () { // гравець і його параметри
             this.rotate = 0;
         }
 
+        runBtn.addEven
+
         if(onGround) { // чи знаходиться гравець на землі
             this.rotate -=(this.rotate - angle) * 0.5;
             this.speedX = this.speedX - (angle - this.rotate);
@@ -86,6 +95,7 @@ let car = new function () { // гравець і його параметри
     }
 }
 
+
 let time = 0; // час для генерації дороги
 let speed = 0;
 const controller = {
@@ -94,9 +104,27 @@ const controller = {
     a: 0,
     d: 0
 };
+
+// кон
+runBtn.ontouchstart = () => {
+    controller.w = 1;
+    speed -= (speed - (controller.w - controller.s)) * 0.01;
+}
+runBtn.ontouchend = () => {
+    controller.w = 0;
+}
+stopBtn.ontouchstart = () => {
+    controller.s = 1;
+    speed -= (speed - (controller.w - controller.s)) * 0.01;
+}
+stopBtn.ontouchend = () => {
+    controller.s = 0;
+}
+
+
 function loop() {
     speed -= (speed - (controller.w - controller.s)) * 0.01;
-    time += 15 * speed;
+    time += 5 * speed;
     ctx.fillStyle = "#19f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -114,7 +142,7 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-onkeydown = d => controller[d.key] = 1;
-onkeyup = d => controller[d.key] = 0;
+onkeydown = somekey => controller[somekey.key] = 1;
+onkeyup = somekey => controller[somekey.key] = 0;
 
 loop();

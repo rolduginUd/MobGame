@@ -17,11 +17,15 @@
     bottom: 30px;
     display: none;
 }
-/* @media screen and (max-width: 768px) {
+.run:active,
+.stop:active {
+    background-color: white;
+}
+@media (max-width: 768px) {
     .run{
         display: block;
     }
     .stop {
         display: block;
     }
-} */
+}
