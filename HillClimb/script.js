@@ -222,10 +222,7 @@ function loop() {
     ctx.fill();
 
     car.draw();
-
     
-
-
     requestAnimationFrame(loop);
 }
 

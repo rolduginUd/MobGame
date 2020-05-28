@@ -60,11 +60,12 @@
 }
 
 #myProgress {
+    position: absolute;
     width: 20%;
     background-color: grey;
     position: absolute;
-    top: 3%;
-    right: 5%;
+    top: 60px;
+    right: 30px;
 }
   
 #myBar {
