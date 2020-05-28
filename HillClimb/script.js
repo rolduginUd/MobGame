@@ -66,7 +66,7 @@ let car = new function () { // гравець і його параметри
 
         if(onGround && Math.abs(this.rotate) > 1.6) { // смерть пожила
             // location.reload();
-            this.x = canvas.width / 2;
+            this.x = canvas.width / 3;
             this.y = 0;
             this.speedY = 0;
             this.speedX = 0;
