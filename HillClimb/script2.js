@@ -7,13 +7,7 @@ canvas.width = document.documentElement.clientWidth;
 var img = new Image();
 img.src = "img/red_car.png"
 
-let time = 0;
-let speed = 0;
-let x = canvas.width/2;
-let y = 0;
-let speedY = 0;
-let speedX = 0;
-let rotate = 0;
+
 
 
 
@@ -39,13 +33,14 @@ let noise = x => {
 
 
 function game() {
-    update();
+    
     render();
+    update();
     requestAnimFrame(game);
 }
 let time = 0;
 let speed = 0;
-let x = canvas.width/2;
+let x = canvas.width;
 let y = 0;
 let speedY = 0;
 let speedX = 0;
@@ -98,7 +93,7 @@ function render() {
     ctx.lineTo(canvas.width, canvas.height);
     ctx.fill();
 
-    
+
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(rotate);
