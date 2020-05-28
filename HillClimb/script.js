@@ -65,6 +65,11 @@ let car = new function () { // гравець і його параметри
         this.y += this.speedY;
 
         if(onGround && Math.abs(this.rotate) > 1.6) { // смерть пожила
+            this.x = canvas.width / 2;
+            this.y = 0;
+            this.speedY = 0;
+            this.speedX = 0;
+            this.rotate = 0;
             controller.w = 0;
             controller.s = 0;
             controller.a = 0;
@@ -154,18 +159,19 @@ document.querySelector('.cart3').onclick = () => {
 let fuelCounter = 100;
 function fuel () {
     if(controller.w > 0) 
-        fuelCounter -= 0.04;
+        fuelCounter -= 1//0.04;
 
     if(controller.s > 0)
         fuelCounter -= 0.04;
 
     if(fuelCounter < 0){
-        fuelCounter = 1;
+        //fuelCounter = 1;
         controller.w = 0;
         controller.s = 0;
         controller.a = 0;
         controller.b = 0;
-        alert("заправся бомж");
+        
+        //alert("заправся бомж");
     }
 
     progress.style.width = fuelCounter + "%";
@@ -173,6 +179,7 @@ function fuel () {
 
 
 function loop() {
+    fuel();
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
     ctx.fillStyle = "#19f";
@@ -189,7 +196,7 @@ function loop() {
 
     car.draw();
 
-    fuel();
+    
 
 
     requestAnimationFrame(loop);
