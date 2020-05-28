@@ -13,7 +13,7 @@ const stop = document.getElementsByClassName('stop');
 const checkOrientation = () => {
     if (canvas.width !== document.documentElement.clientWidth) {
         canvas.width = document.documentElement.clientWidth; 
-        canvas.height = document.documentElement.clientHeight-5;      
+        canvas.height = document.documentElement.clientHeight;      
     }
 }
 
@@ -44,7 +44,7 @@ let car = new function () { // гравець і його параметри
     this.rotate = 0;
 
     this.img = new Image();
-    this.img.src = "img/red_car.png"
+    this.img.src = "img/tesla.png"
     this.draw = function () {
         let p1 = canvas.height - noise(time + this.x) * 0.30;    // оце тоже впливає 
         let p2 = canvas.height - noise(time + 5 + this.x) * 0.30;//                на положення картінки
@@ -69,7 +69,7 @@ let car = new function () { // гравець і його параметри
             this.speedY = 0;
             this.speedX = 0;
             this.rotate = 0;
-            location.reload();
+
         }
 
         // контроллер для моб.
@@ -86,22 +86,22 @@ let car = new function () { // гравець і його параметри
             controller.s = 0;
         }
         
-        if(!onGround) { // чи знаходиться гравець на землі
-            runBtn.ontouchstart = () => {
-                controller.d = 1;
-            }
-            runBtn.ontouchend = () => {
-                controller.d = 0;
-            }
-            stopBtn.ontouchstart = () => {
-                controller.a = 1;
-            }
-            stopBtn.ontouchend = () => {
-                controller.a = 0;
-            }
-        } 
+        // if(!onGround) { 
+        //     runBtn.ontouchstart = () => {
+        //         controller.d = 1;
+        //     }
+        //     runBtn.ontouchend = () => {
+        //         controller.d = 0;
+        //     }
+        //     stopBtn.ontouchstart = () => {
+        //         controller.a = 1;
+        //     }
+        //     stopBtn.ontouchend = () => {
+        //         controller.a = 0;
+        //     }
+        // } 
 
-        if(onGround) { // чи знаходиться гравець на землі
+        if(onGround) { 
             this.rotate -=(this.rotate - angle) * 0.5;
             this.speedX = this.speedX - (angle - this.rotate);
 
@@ -119,7 +119,12 @@ let car = new function () { // гравець і його параметри
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotate);
-        ctx.drawImage(this.img, -40, -25, 80, 50);
+        if (window.matchMedia("(max-width: 1000px)").matches) {
+            ctx.drawImage(this.img, -20, -12, 60, 50);
+        }else{
+            ctx.drawImage(this.img, -40, -45, 100, 90);
+        }
+        
         ctx.restore();
     }
 }
@@ -140,7 +145,7 @@ function loop() {
     ctx.fillStyle = "#19f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "yellow";
+    ctx.fillStyle = "#81392A";
     ctx.beginPath();
     ctx.moveTo(0, canvas.height);
     for(let i = 0; i < canvas.width; i++)

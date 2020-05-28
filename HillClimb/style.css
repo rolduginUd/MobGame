@@ -1,6 +1,7 @@
 /* Треба написать медіа запрос під мобілу і виставить розміри вікна */
 *{
     margin: 0;
+    
 }
 .stop {
     position: absolute;
@@ -20,10 +21,22 @@
     bottom: 30px;
     display: none;
 }
-.shop {
+#shop {
     position: absolute;
     top: 30px;
     left: 30px;
+    width: 50px;
+    height: 50px;
+}
+.cart {
+    width: 30px;
+    height: 30px;
+}
+.cart:hover {
+    cursor: pointer;
+}
+#shop {
+
 }
 .run:active,
 .stop:active {
