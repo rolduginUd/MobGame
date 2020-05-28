@@ -159,7 +159,7 @@ document.querySelector('.cart3').onclick = () => {
 let fuelCounter = 100;
 function fuel () {
     if(controller.w > 0) 
-        fuelCounter -= 1//0.04;
+        fuelCounter -= 0.04;
 
     if(controller.s > 0)
         fuelCounter -= 0.04;
