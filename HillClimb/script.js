@@ -1,7 +1,8 @@
 let canvas = document.getElementById('canvas'); 
 let ctx = canvas.getContext("2d");
-let money = 0;
+let progress = document.getElementById("myBar");
 
+let money = 0;
 // $('#myModal').modal(options)
 
 let stopBtn = document.querySelector('.stop');
@@ -170,6 +171,28 @@ document.querySelector('.cart3').onclick = () => {
 }
 
 
+// топливо
+let fuelCounter = 100;
+function fuel () {
+    if(controller.w > 0) 
+        fuelCounter -= 0.04;
+
+    if(controller.s > 0)
+        fuelCounter -= 0.04;
+
+    if(fuelCounter < 0){
+        fuelCounter = 1;
+        controller.w = 0;
+        controller.s = 0;
+        controller.a = 0;
+        controller.b = 0;
+        alert("заправся бомж");
+    }
+
+    progress.style.width = fuelCounter + "%";
+}
+
+
 function loop() {
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
@@ -187,6 +210,9 @@ function loop() {
     ctx.fill();
 
     car.draw();
+
+    fuel();
+
 
     requestAnimationFrame(loop);
 }
