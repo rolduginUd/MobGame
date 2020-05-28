@@ -44,7 +44,7 @@ let car = new function () { // гравець і його параметри
     this.rotate = 0;
 
     this.img = new Image();
-    this.img.src = "img/tesla.png"
+    this.img.src = "img/noobCar.png"
     this.draw = function () {
         let p1 = canvas.height - noise(time + this.x) * 0.30;    // оце тоже впливає 
         let p2 = canvas.height - noise(time + 5 + this.x) * 0.30;//                на положення картінки
@@ -137,6 +137,17 @@ const controller = {
     a: 0,
     d: 0
 };
+
+//покупка
+document.querySelector('.cart1').onclick = () => {
+    car.img.src = "img/lvl1.png";
+}
+document.querySelector('.cart2').onclick = () => {
+    car.img.src = "img/lvl2.png";
+}
+document.querySelector('.cart3').onclick = () => {
+    car.img.src = "img/lvl3.png";
+}
 
 
 function loop() {
