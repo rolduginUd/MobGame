@@ -1,7 +1,6 @@
 let canvas = document.getElementById('canvas'); 
 let ctx = canvas.getContext("2d");
 let progress = document.getElementById("myBar");
-
 let money = 0;
 // $('#myModal').modal(options)
 
@@ -75,7 +74,6 @@ let car = new function () { // гравець і його параметри
             controller.s = 0;
             controller.a = 0;
             controller.b = 0;
-            alert("Шо лох, наєбнувся?)");
         }
 
         // контроллер для моб.
@@ -222,7 +220,7 @@ function loop() {
     ctx.fill();
 
     car.draw();
-    
+
     requestAnimationFrame(loop);
 }
 
