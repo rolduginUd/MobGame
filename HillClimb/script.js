@@ -8,6 +8,7 @@ let coinImg = new Image();
 coinImg.src = "img/bitcoin.png"
 // $('#myModal').modal(options)
 
+let money = 0;
 let stopBtn = document.querySelector('.stop');
 let runBtn = document.querySelector('.run');
 
@@ -21,12 +22,18 @@ const checkOrientation = () => {
         canvas.height = document.documentElement.clientHeight;      
     }
 }
-
 if (window.matchMedia("(max-width: 1000px)").matches) {
     stopBtn.style.display = 'block';
     runBtn.style.display = 'block';
 }
-document.body.appendChild(canvas); 
+document.body.appendChild(canvas);
+window.onload = () => {
+    if(!window.player) {
+        localStorage.player = prompt("Введіть логін")
+    }
+}
+
+
 
 let perm = [];
 while(perm.length < 255) {
@@ -78,7 +85,6 @@ let car = new function () { // гравець і його параметри
             controller.s = 0;
             controller.a = 0;
             controller.b = 0;
-            alert("Шо лох, наєбнувся?)");
         }
 
         // контроллер для моб.
@@ -236,7 +242,7 @@ function loop() {
     ctx.fill();
 
     car.draw();
-    
+
     requestAnimationFrame(loop);
 }
 
