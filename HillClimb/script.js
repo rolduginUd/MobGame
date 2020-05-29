@@ -2,7 +2,10 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 let progress = document.getElementById("myBar");
 
+
 let money = 0;
+let coinImg = new Image();
+coinImg.src = "img/bitcoin.png"
 // $('#myModal').modal(options)
 
 let stopBtn = document.querySelector('.stop');
@@ -203,6 +206,8 @@ function fuel () {
     progress.style.width = fuelCounter + "%";
 }
 
+let coinX;
+let coinY;
 
 function loop() {
     fuel();
@@ -213,10 +218,19 @@ function loop() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#81392A";
+    ctx.drawImage(coinImg,coinX,coinY);
     ctx.beginPath();
     ctx.moveTo(0, canvas.height);
-    for(let i = 0; i < canvas.width; i++)
-    ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
+
+    for(let i = 0; i < canvas.width; i++){
+        ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
+        if(i % 500 == 0){
+            coinX = i;
+            coinY = (canvas.height - noise(time + i) * 0.25)-30;
+        }  
+    }
+    
+
 
     ctx.lineTo(canvas.width, canvas.height);
     ctx.fill();
