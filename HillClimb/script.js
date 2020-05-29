@@ -22,7 +22,9 @@ if (window.matchMedia("(max-width: 1000px)").matches) {
 document.body.appendChild(canvas);
 window.onload = () => {
     if(!window.player) {
-        localStorage.player = prompt("Введіть логін")
+        localStorage.player = {
+           
+        }
     }
 }
 
