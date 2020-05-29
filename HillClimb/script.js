@@ -2,8 +2,6 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 let progress = document.getElementById("myBar");
 let money = 0;
-// $('#myModal').modal(options)
-
 let stopBtn = document.querySelector('.stop');
 let runBtn = document.querySelector('.run');
 
@@ -17,12 +15,18 @@ const checkOrientation = () => {
         canvas.height = document.documentElement.clientHeight;      
     }
 }
-
 if (window.matchMedia("(max-width: 1000px)").matches) {
     stopBtn.style.display = 'block';
     runBtn.style.display = 'block';
 }
-document.body.appendChild(canvas); 
+document.body.appendChild(canvas);
+window.onload = () => {
+    if(!window.player) {
+        localStorage.player = prompt("Введіть логін")
+    }
+}
+
+
 
 let perm = [];
 while(perm.length < 255) {
