@@ -8,7 +8,7 @@ let coinImg = new Image();
 coinImg.src = "img/bitcoin.png"
 // $('#myModal').modal(options)
 
-let money = 0;
+
 let stopBtn = document.querySelector('.stop');
 let runBtn = document.querySelector('.run');
 
@@ -27,11 +27,11 @@ if (window.matchMedia("(max-width: 1000px)").matches) {
     runBtn.style.display = 'block';
 }
 document.body.appendChild(canvas);
-window.onload = () => {
-    if(!window.player) {
-        localStorage.player = prompt("Введіть логін")
-    }
-}
+// window.onload = () => {
+//     if(!window.player) {
+//         localStorage.player = prompt("Введіть логін")
+//     }
+// }
 
 
 
@@ -211,9 +211,16 @@ function fuel () {
 
     progress.style.width = fuelCounter + "%";
 }
-
-let coinX;
+//монетки
+let coinX = 1;
 let coinY;
+let coinSpawn = false;
+function spawner() {
+
+    if (coinSpawn) return;
+    coinY = (canvas.height - noise(time + canvas.width) * 0.25) - 35;  
+    coinSpawn = true;
+}
 
 function loop() {
     fuel();
@@ -224,19 +231,17 @@ function loop() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#81392A";
-    ctx.drawImage(coinImg,coinX,coinY);
+    
     ctx.beginPath();
     ctx.moveTo(0, canvas.height);
 
     for(let i = 0; i < canvas.width; i++){
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
-        if(i % 500 == 0){
-            coinX = i;
-            coinY = (canvas.height - noise(time + i) * 0.25)-30;
-        }  
+        spawner();
     }
     
-
+    coinX = canvas.width - time;
+    ctx.drawImage(coinImg,coinX,coinY);
 
     ctx.lineTo(canvas.width, canvas.height);
     ctx.fill();

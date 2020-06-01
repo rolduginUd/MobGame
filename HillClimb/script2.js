@@ -39,6 +39,14 @@ function update() {
 }
 let coinX = 1;
 let coinY;
+let coinSpawn = false;
+
+function spawner() {
+
+    if (coinSpawn) return;
+    coinY = (canvas.height - noise(time + canvas.width) * 0.25) - 35;  
+    coinSpawn = true;
+}
 
 function render() {
     ctx.fillStyle = "#19f";
@@ -50,9 +58,9 @@ function render() {
     ctx.moveTo(0, canvas.height);
     for(let i = 0; i < canvas.width; i++) {
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
-        coinY = ((canvas.height - noise(time + i) * 0.25)-30);
-        coinX = i - time;
+        spawner();
     }
+    coinX = canvas.width - time;
 
     ctx.drawImage(coinImg,coinX,coinY);
 
