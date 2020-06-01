@@ -8,9 +8,20 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-  <img src="img/shop.png" alt="shop" class="shop" data-toggle="modal" data-target="#staticBackdrop">
+  <canvas id="canvas"></canvas>
+
+  <!-- menu -->
+  <div class="hamburger-open"><span class="spans" id="spanOne"></span><span class="spans" id="spanTwo"></span><span class="spans" id="spanThree"></span></div>
+    <div class="modal-menu">
+      <h2 class="menuitem backToGame">Back to Game</h2>
+      <h2 class="menuitem" data-toggle="modal" data-target="#staticBackdrop"><img src="img/shop.png" alt="shop" class="shop" >Shop</h2>
+      <h2 class="menuitem">Exit account</h2>
+    </div>
+
+  <img class="exit" src="img/exit.png" alt="exit">
   <div class="moneyContainer"><span class="money">0</span> <img src="img/bitcoin.png" alt="money"></div>
 
+  <!-- shop -->
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -38,18 +49,24 @@
     </div>
   </div>
 
+  <!-- fuel indicator -->
+<img src="img/fuel.png" class="fuel" alt="fuel">
 <div id="myProgress">
   <div id="myBar"></div>
 </div>
 
-    <div class="stop"></div>
-    <div class="run"></div>
+    <!-- Педалі для моб. вресії -->
+  <div class="stop"></div>
+  <div class="run"></div>
 
-    <canvas id="canvas"></canvas>
-    <script src="script.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src='https://cdn.jsdelivr.net/mojs/0.265.6/mo.min.js'></script>
+
+    <script src="script.js"></script> 
+    <script src="menu.js"></script>
+
 </body>
 </html>

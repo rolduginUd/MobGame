@@ -4,12 +4,15 @@
 }
 .stop {
     position: absolute;
-    width: 50px;
-    height: 100px;
-    background-color: black;
     left: 50px;
     bottom: 30px;
+    width: 50px;
+    height: 100px;
+    background: url(img/pedal.png) no-repeat ;
     display: none;
+}
+.stop:active {
+    transform: rotateX(50deg)
 }
 .run {
     position: absolute;
@@ -21,16 +24,21 @@
     display: none;
 }
 .shop {
-    position: absolute;
-    top: 30px;
-    left: 30px;
     width: 50px;
     height: 50px;
+    margin-right: 15px;
 }
 .moneyContainer {
     position: absolute;
     top: 30px;
-    right: 30px;
+    right: 100px;
+    width: auto;
+    height: 50px;
+}
+.exit {
+    position: absolute;
+    top: 30px;
+    right: 10px;
     width: auto;
     height: 50px;
 }
@@ -38,16 +46,13 @@
     width: 30px;
     height: 30px;
 }
-.cart:hover {
+.cart:hover,
+.exit:hover {
     cursor: pointer;
 }
 .carInShop {
     width: 50px;
     height: 50px;
-}
-.run:active,
-.stop:active {
-    background-color: white;
 }
 
 @media (max-width: 768px) {
@@ -63,15 +68,167 @@
     position: absolute;
     width: 100px;
     background-color: grey;
+    top: 100px;
+    left: 30px;
+}
+.fuel {
     position: absolute;
-    top: 150px;
-    right: 0;
-    transform: rotate(-90deg);
-    border-radius: 10px;
+    top: 97px;
+    left: 8px;
 }
   
 #myBar {
   height: 20px;
   background-color: rgb(0, 51, 128);
-  border-radius: 10px;
+}
+
+
+
+
+@import url("https://fonts.googleapis.com/css?family=Karla:400,700");
+body, html {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  position: relative;
+  background: #f5f5f5;
+}
+
+.close-button {
+  cursor: pointer;
+}
+
+.hamburger-open {
+  z-index: 1;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.spans {
+  width: 100%;
+  height: 10%;
+  background-color: #111820;
+  border-radius: 500px;
+  opacity: 1;
+  transition-property: background-color, transform, opacity;
+  transition-duration: 0.5s;
+  transition-delay: 0.5s;
+}
+
+.white {
+  background-color: #f5f5f5;
+  transition-duration: 0.5s;
+  transition-delay: none;
+}
+
+.spanOneRotate {
+  transform: translateY(9px) rotate(-45deg);
+  transition-property: background-color, transform;
+  transition-duration: 0.5s;
+  transition-delay: 0.5s;
+}
+
+.spanTwoRotate {
+  transform: rotate(45deg);
+  transition-property: background-color, transform;
+  transition-duration: 0.5s;
+  transition-delay: 0.5s;
+}
+
+.spanThreeHide {
+  transition-property: background-color, opacity;
+  opacity: 0;
+  transition-duration: 0.5s;
+  transition-delay: 0.5s;
+}
+
+.modal-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 50vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+}
+
+.menuitem {
+  position: relative;
+  font-family: "Karla", sans-serif;
+  font-weight: 100;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: #a5a5a5;
+  height: 75px;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  transition-delay: 0;
+}
+
+.menuitem:hover {
+    cursor: pointer;
+}
+
+.menuitem:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  top: 45%;
+  left: -6px;
+  background-color: #111820;
+  height: 1px;
+  z-index: -1;
+  transition-property: all;
+  transition-duration: 0.5s;
+}
+
+.menuitem:nth-of-type(1):hover:after {
+  background-color: #ff4338;
+  transform: scaleY(20) translateY(-60%);
+}
+
+.menuitem:nth-of-type(2):hover:after {
+  background-color: #3cd52e;
+  transform: scaleY(20) translateY(-60%);
+}
+
+.menuitem:nth-of-type(3):hover:after {
+  background-color: #00b3e3;
+  transform: scaleY(20) translateY(-60%);
+}
+
+.menuitem:nth-of-type(4):hover:after {
+  background-color: #ff4338;
+  transform: scaleY(20) translateY(-60%);
+}
+
+.menuitem:hover {
+  color: #f5f5f5;
+}
+
+.show {
+  opacity: 1;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-delay: 1s;
 }

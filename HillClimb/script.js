@@ -1,28 +1,28 @@
 let canvas = document.getElementById('canvas'); 
 let ctx = canvas.getContext("2d");
+
 let progress = document.getElementById("myBar");
-
-
 let money = 0;
 let coinImg = new Image();
 coinImg.src = "img/bitcoin.png"
-// $('#myModal').modal(options)
+const exit = document.querySelector('.exit');
 
 
 let stopBtn = document.querySelector('.stop');
 let runBtn = document.querySelector('.run');
+let rotateControl = 0.05;
 
 setInterval(() => {
     checkOrientation();
 }, 50);
-const stop = document.getElementsByClassName('stop');
 const checkOrientation = () => {
     if (canvas.width !== document.documentElement.clientWidth) {
         canvas.width = document.documentElement.clientWidth; 
         canvas.height = document.documentElement.clientHeight;      
     }
 }
-if (window.matchMedia("(max-width: 1000px)").matches) {
+if (window.matchMedia("(max-width: 800px)").matches) {
+    rotateControl = 0.03
     stopBtn.style.display = 'block';
     runBtn.style.display = 'block';
 }
@@ -32,8 +32,17 @@ document.body.appendChild(canvas);
 //         localStorage.player = prompt("Введіть логін")
 //     }
 // }
-
-
+window.onload = () => {
+    if(!localStorage.player) {
+        let name = prompt('Введите имя')
+        localStorage.player = name;
+        localStorage.money = 0;
+        console.log('-money')
+    }
+    else{
+        localStorage.money = money;
+    }
+}
 
 let perm = [];
 while(perm.length < 255) {
@@ -100,38 +109,45 @@ let car = new function () { // гравець і його параметри
         stopBtn.ontouchend = () => {
             controller.s = 0;
         }
+        // if (window.matchMedia("(max-width: 1000px)").matches) {
+            // if(!onGround && this.y < (p1 - 35) ) { 
+            //     console.log('не на землі', this.y)
+            //     controller.w = 0;
+            //     controller.s = 0;
+            //     runBtn.ontouchstart = () => {
+            //         controller.d = 1;
+            //     }
+            //     runBtn.ontouchend = () => {
+            //         controller.d = 0;
+            //     }
+            //     stopBtn.ontouchstart = () => {w
+            //         controller.a = 1;
+            //     }
+            //     stopBtn.ontouchend = () => {
+            //         controller.a = 0;
+            //     }
+            // } 
+        // }
         
-        // if(!onGround) { 
-        //     runBtn.ontouchstart = () => {
-        //         controller.d = 1;
-        //     }
-        //     runBtn.ontouchend = () => {
-        //         controller.d = 0;
-        //     }
-        //     stopBtn.ontouchstart = () => {
-        //         controller.a = 1;
-        //     }
-        //     stopBtn.ontouchend = () => {
-        //         controller.a = 0;
-        //     }
-        // } 
 
         if(onGround) { 
             this.rotate -=(this.rotate - angle) * 0.5;
             this.speedX = this.speedX - (angle - this.rotate);
 
         } 
-        this.speedX += (controller.a - controller.d) * 0.05;
+        this.speedX += (controller.a - controller.d) * rotateControl;
         
         this.rotate -= this.speedX * 0.1;
         if(this.rotate > Math.PI){
             this.rotate = -Math.PI;
             money+= 50;
+            localStorage.money = money;
         } 
         if(this.rotate < -Math.PI)
         {
             this.rotate = Math.PI;
             money+= 50;
+            localStorage.money = money;
         } 
         ctx.save();
         ctx.translate(this.x, this.y);
@@ -159,13 +175,16 @@ const controller = { // контроллер
 onkeydown = somekey => controller[somekey.key] = 1;
 onkeyup = somekey => controller[somekey.key] = 0;
  
-
+exit.onclick = () => {
+    localStorage.clear();
+}
 //покупка
 document.querySelector('.cart1').onclick = () => {
     if(money >= 100) {
         car.img.src = "img/lvl1.png";
         $('#staticBackdrop').modal('hide');
         money = money - 100;
+        localStorage.money = money;
     }else {
         alert('У вас не достаточно денег')
     }
@@ -175,6 +194,7 @@ document.querySelector('.cart2').onclick = () => {
         car.img.src = "img/lvl2.png";
         $('#staticBackdrop').modal('hide');
         money = money - 200;
+        localStorage.money = money;
     }else {
         alert('У вас не достаточно денег')
     }
@@ -184,11 +204,11 @@ document.querySelector('.cart3').onclick = () => {
         car.img.src = "img/lvl3.png";
         $('#staticBackdrop').modal('hide');
         money = money - 300;
+        localStorage.money = money;
     }else {
         alert('У вас не достаточно денег')
     }
 }
-
 
 // топливо
 let fuelCounter = 100;
@@ -208,7 +228,6 @@ function fuel () {
         
         //alert("заправся бомж");
     }
-
     progress.style.width = fuelCounter + "%";
 }
 //монетки
@@ -226,7 +245,7 @@ function loop() {
     fuel();
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
-    document.querySelector('.money').innerHTML = money;
+    document.querySelector('.money').innerHTML = localStorage.money;
     ctx.fillStyle = "#19f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
