@@ -2,6 +2,9 @@
 *{
     margin: 0;
 }
+#canvas {
+  z-index: 1000;
+}
 .stop {
     position: absolute;
     left: 50px;
@@ -159,7 +162,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: -1;
   width: 50vw;
   height: auto;
   display: flex;
@@ -231,4 +234,5 @@ body {
   transition-property: all;
   transition-duration: 0.5s;
   transition-delay: 1s;
+  z-index: 2;
 }
