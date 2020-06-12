@@ -16,6 +16,8 @@ let backToGame = document.querySelector('.backToGame');
 let stopBtn = document.querySelector('.stop');
 let runBtn = document.querySelector('.run');
 let rotateControl = 0.05;
+let recordContainer = document.querySelector('.record');
+let record = 0;
 
 setInterval(() => {
     checkOrientation();
@@ -229,14 +231,16 @@ document.querySelector('.cart3').onclick = () => {
     }
 }
 
-// топливо
-let fuelCounter = 100;
-function fuel () {
-    if(controller.w > 0) 
-        fuelCounter -= 0.04;
+// топливо и рекорд
 
-    if(controller.s > 0)
+let fuelCounter = 100;
+function fuelAndCount () {
+    if(controller.w > 0) {
         fuelCounter -= 0.04;
+    }
+    if(controller.s > 0) {
+        fuelCounter -= 0.04;
+    }
 
     if(fuelCounter < 0){
         //fuelCounter = 1;
@@ -244,10 +248,12 @@ function fuel () {
         controller.s = 0;
         controller.a = 0;
         controller.b = 0;
-        
         //alert("заправся бомж");
     }
+    if(record < Math.floor(time/10) && speed > 0)
+        record = Math.floor(time/10); 
     progress.style.width = fuelCounter + "%";
+    recordContainer.textContent = Math.floor(record);
 }
 //монетки
 let coinX = 1;
@@ -261,7 +267,7 @@ function spawner() {
 }
 
 function loop() {
-    fuel();
+    fuelAndCount();
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
     ctx.fillStyle = "#19f";

@@ -57,6 +57,13 @@
     height: 50px;
 }
 
+.recordConteiner {
+  position: absolute;
+  top: 30px;
+  right: 200px;
+  height: 50px;
+}
+
 .cart {
     width: 30px;
     height: 30px;
