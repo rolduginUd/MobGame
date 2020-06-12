@@ -3,7 +3,15 @@
     margin: 0;
 }
 #canvas {
-  z-index: 1000;
+  z-index: 5;
+}
+
+.rotate {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  display: none;
 }
 
 .noBought1, 
@@ -77,7 +85,7 @@
     height: 50px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1008px) {
     .run{
         display: block;
     }
