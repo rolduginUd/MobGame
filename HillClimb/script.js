@@ -35,18 +35,18 @@ if (window.matchMedia("(max-width: 800px)").matches) {
 }
 
 window.onload = () => {
-    let cross = spanOne.classList.contains("white");
+    // let cross = spanOne.classList.contains("white");
 
-    modalMenu.classList.toggle("show");
-    timelineOpen.play();
+    // modalMenu.classList.toggle("show");
+    // timelineOpen.play();
 
-    for (let i = 0; i < spans.length; i++) {
-      spans[i].classList.add("white");
-    }
+    // for (let i = 0; i < spans.length; i++) {
+    //   spans[i].classList.add("white");
+    // }
 
-    spanOne.classList.add("spanOneRotate");
-    spanTwo.classList.add("spanTwoRotate");
-    spanThree.classList.add("spanThreeHide");
+    // spanOne.classList.add("spanOneRotate");
+    // spanTwo.classList.add("spanTwoRotate");
+    // spanThree.classList.add("spanThreeHide");
 
     if(!localStorage.name) {
         backToGame.style.display = 'block';
@@ -259,17 +259,21 @@ function fuelAndCount () {
 let coinX = 1;
 let coinY;
 let coinSpawn = false;
+let timer = 0;
 
-// function spawner() {
-//     if (coinSpawn) return;
-//     coin.y = (canvas.height - noise(time + canvas.width) * 0.25) -30;  
-//     coinSpawn = true;
-// }
+function spawner(i) {
+    //if (coinSpawn) return;
+    
+    //coinSpawn = true;
+}
 let coin = [];
 coin.push({x:canvas.width - car.x,y:0});
 let dx = 0;
+let rand = 0;
+let check = 0;
 function game() {
     fuelAndCount();
+    timer += 1;
     update();
     render();
     requestAnimationFrame(game);
@@ -278,6 +282,7 @@ function update() {
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
     dx = canvas.width - time;
+    rand = Math.floor(Math.random()*(150-50)+50);
 }
 function render() {
     ctx.fillStyle = "#19f";
@@ -287,19 +292,26 @@ function render() {
     ctx.moveTo(0, canvas.height);
     for(let i = 0; i < canvas.width; i++){
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
-        //spawner();
     }
+    
     //console.log(record);
-    for(i in coin) {
-    coin[i].y = (canvas.height - noise(canvas.width) * 0.25) - 40; 
-    ctx.drawImage(coinImg,coin[i].x + dx,coin[i].y);
+    for(let i = 0; i < coin.length; i++) {
+        if(record > check && timer%rand == 0){
+            coin.push({x:canvas.width + Math.floor(time), y:((canvas.height - noise(canvas.width) * 0.25) - 40)});
+            check = record;
+            //coinSpawn =false;
+        }
+        //coin[i].y = ; 
+        ctx.drawImage(coinImg,coin[i].x + dx,coin[i].y);
+            if(coin[i].x + dx < car.x)
+                coin.splice(i,1);
     }
     ctx.lineTo(canvas.width, canvas.height);
     ctx.fill();
+    //spawner(canvas.height - noise(canvas.width + time) * 0.25);
     car.draw();
 }
 game();
-
 
 
 
