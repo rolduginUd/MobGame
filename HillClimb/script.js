@@ -159,7 +159,7 @@ let car = new function () { // гравець і його параметри
             localStorage.money = money;
             moneyContainer.textContent = money;
         } 
-        if(this.rotate < -Math.PI)
+        else if(this.rotate < -Math.PI)
         {
             this.rotate = Math.PI;
             money+= 500;
@@ -259,42 +259,46 @@ function fuelAndCount () {
 let coinX = 1;
 let coinY;
 let coinSpawn = false;
-function spawner() {
 
-    if (coinSpawn) return;
-    coinY = (canvas.height - noise(time + canvas.width) * 0.25) + 735;  
-    coinSpawn = true;
-}
-
-function loop() {
+// function spawner() {
+//     if (coinSpawn) return;
+//     coin.y = (canvas.height - noise(time + canvas.width) * 0.25) -30;  
+//     coinSpawn = true;
+// }
+let coin = [];
+coin.push({x:canvas.width - car.x,y:0});
+let dx = 0;
+function game() {
     fuelAndCount();
+    update();
+    render();
+    requestAnimationFrame(game);
+}
+function update() {
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
+    dx = canvas.width - time;
+}
+function render() {
     ctx.fillStyle = "#19f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     ctx.fillStyle = "#81392A";
-    
     ctx.beginPath();
     ctx.moveTo(0, canvas.height);
-
     for(let i = 0; i < canvas.width; i++){
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
-        spawner();
+        //spawner();
     }
-    
-    coinX = canvas.width - time;
-    ctx.drawImage(coinImg,coinX,coinY);
-
+    //console.log(record);
+    for(i in coin) {
+    coin[i].y = (canvas.height - noise(canvas.width) * 0.25) - 40; 
+    ctx.drawImage(coinImg,coin[i].x + dx,coin[i].y);
+    }
     ctx.lineTo(canvas.width, canvas.height);
     ctx.fill();
-
     car.draw();
-
-    requestAnimationFrame(loop);
 }
-
-loop();
+game();
 
 
 
