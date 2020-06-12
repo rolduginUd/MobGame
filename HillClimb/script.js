@@ -15,7 +15,6 @@ let backToGame = document.querySelector('.backToGame');
 
 let stopBtn = document.querySelector('.stop');
 let runBtn = document.querySelector('.run');
-let rotateControl = 0.05;
 let recordContainer = document.querySelector('.record');
 let record = 0;
 
@@ -28,25 +27,27 @@ const checkOrientation = () => {
         canvas.height = document.documentElement.clientHeight;      
     }
 }
-if (window.matchMedia("(max-width: 800px)").matches) {
-    rotateControl = 0.03; // швидкість повороту машини на моб
+if (window.matchMedia("(max-width: 1000px)").matches) {
     stopBtn.style.display = 'block';
     runBtn.style.display = 'block';
+    if (window.orientation == 0) {
+        document.querySelector('.rotate').style.display = 'block';
+    }
 }
 
 window.onload = () => {
-    let cross = spanOne.classList.contains("white");
+    // let cross = spanOne.classList.contains("white");
 
-    modalMenu.classList.toggle("show");
-    timelineOpen.play();
+    // modalMenu.classList.toggle("show");
+    // timelineOpen.play();
 
-    for (let i = 0; i < spans.length; i++) {
-      spans[i].classList.add("white");
-    }
+    // for (let i = 0; i < spans.length; i++) {
+    //   spans[i].classList.add("white");
+    // }
 
-    spanOne.classList.add("spanOneRotate");
-    spanTwo.classList.add("spanTwoRotate");
-    spanThree.classList.add("spanThreeHide");
+    // spanOne.classList.add("spanOneRotate");
+    // spanTwo.classList.add("spanTwoRotate");
+    // spanThree.classList.add("spanThreeHide");
 
     if(!localStorage.name) {
         backToGame.style.display = 'block';
@@ -55,10 +56,13 @@ window.onload = () => {
     else{
         backToGame.style.display = 'none';
         money = localStorage.money;
-        moneyContainer.textContent = ' ';
     }
-    moneyContainer.textContent = money;
+    money = parseInt(money);
+    moneyContainer.innerHTML = money;
 }
+window.addEventListener( 'orientationchange', () => {
+    location.reload();
+});
 
 let perm = [];
 while(perm.length < 255) {
@@ -88,7 +92,11 @@ let car = new function () { // гравець і його параметри
 
         let onGround = false;
         if(p1 - 15 > this.y) {
-            this.speedY += 0.1;
+            if (window.matchMedia("(max-width: 1000px)").matches) {
+            this.speedY += 0.05;
+            } else {
+                this.speedY += 0.1;
+            }
     
         }else {
             this.speedY -= this.y - (p1 - 15);
@@ -124,25 +132,29 @@ let car = new function () { // гравець і його параметри
         stopBtn.ontouchend = () => {
             controller.s = 0;
         }
-        // if (window.matchMedia("(max-width: 1000px)").matches) {
-            // if(!onGround && this.y < (p1 - 35) ) { 
-            //     console.log('не на землі', this.y)
-            //     controller.w = 0;
-            //     controller.s = 0;
-            //     runBtn.ontouchstart = () => {
-            //         controller.d = 1;
-            //     }
-            //     runBtn.ontouchend = () => {
-            //         controller.d = 0;
-            //     }
-            //     stopBtn.ontouchstart = () => {w
-            //         controller.a = 1;
-            //     }
-            //     stopBtn.ontouchend = () => {
-            //         controller.a = 0;
-            //     }
-            // } 
-        // }
+        if (window.matchMedia("(max-width: 1000px)").matches) {
+            if(!onGround && this.y < (p1 - 45) ) { 
+                console.log('не на землі', this.y)
+                controller.w = 0;
+                controller.s = 0;
+                runBtn.ontouchstart = () => {
+                    controller.w = 1;
+                    controller.d = 1;
+                }
+                runBtn.ontouchend = () => {
+                    controller.w = 0;
+                    controller.d = 0;
+                }
+                stopBtn.ontouchstart = () => {
+                    controller.w = 1;
+                    controller.a= 1;
+                }
+                stopBtn.ontouchend = () => {
+                    controller.w = 0;
+                    controller.a = 0;
+                }
+            } 
+        }
         
 
         if(onGround) { 
@@ -150,27 +162,28 @@ let car = new function () { // гравець і його параметри
             this.speedX = this.speedX - (angle - this.rotate);
 
         } 
-        this.speedX += (controller.a - controller.d) * rotateControl;
+        this.speedX += (controller.a - controller.d) * 0.05;
         
         this.rotate -= this.speedX * 0.1;
         if(this.rotate > Math.PI){
             this.rotate = -Math.PI;
-            money+= 500;
+            money += 500;
             localStorage.money = money;
-            moneyContainer.textContent = money;
+            moneyContainer.innerHTML = money;
         } 
         else if(this.rotate < -Math.PI)
         {
             this.rotate = Math.PI;
-            money+= 500;
+            money += 500;
             localStorage.money = money;
-            moneyContainer.textContent = money;
+            moneyContainer.innerHTML = money;
         } 
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotate);
+
         if (window.matchMedia("(max-width: 1000px)").matches) {
-            ctx.drawImage(this.img, -20, -12, 60, 50);
+            ctx.drawImage(this.img, -40, -25, 70, 60);
         }else{
             ctx.drawImage(this.img, -40, -45, 100, 90);
         }
@@ -200,7 +213,7 @@ document.querySelector('.cart1').onclick = () => {
         $('#staticBackdrop').modal('hide');
         money = money - 100;
         localStorage.money = money;
-        moneyContainer.textContent = localStorage.money;
+        moneyContainer.innerHTML = localStorage.money;
         document.querySelector('.noBought1').classList.remove('noBought1');
     }else {
         alert('У вас не достаточно денег');
@@ -212,8 +225,8 @@ document.querySelector('.cart2').onclick = () => {
         $('#staticBackdrop').modal('hide');
         money = money - 200;
         localStorage.money = money;
-        moneyContainer.textContent = localStorage.money;
-        document.querySelector('.noBought1').classList.remove('noBought2');
+        moneyContainer.innerHTML = localStorage.money;
+        document.querySelector('.noBought2').classList.remove('noBought2');
     }else {
         alert('У вас не достаточно денег')
     }
@@ -224,12 +237,14 @@ document.querySelector('.cart3').onclick = () => {
         $('#staticBackdrop').modal('hide');
         money = money - 300;
         localStorage.money = money;
-        moneyContainer.textContent = localStorage.money;
-        document.querySelector('.noBought1').classList.remove('noBought3');
+        moneyContainer.innerHTML = localStorage.money;
+        document.querySelector('.noBought3').classList.remove('noBought3');
     }else {
         alert('У вас не достаточно денег')
     }
 }
+
+
 
 // топливо и рекорд
 
@@ -253,7 +268,7 @@ function fuelAndCount () {
     if(record < Math.floor(time/10) && speed > 0)
         record = Math.floor(time/10); 
     progress.style.width = fuelCounter + "%";
-    recordContainer.textContent = Math.floor(record);
+    recordContainer.innerHTML = Math.floor(record);
 }
 //монетки
 let coinX = 1;
