@@ -13,12 +13,14 @@
   <!-- menu -->
   <div class="hamburger-open"><span class="spans" id="spanOne"></span><span class="spans" id="spanTwo"></span><span class="spans" id="spanThree"></span></div>
     <div class="modal-menu">
-      <h2 class="menuitem backToGame">Back to Game</h2>
-      <h2 class="menuitem" data-toggle="modal" data-target="#staticBackdrop"><img src="img/shop.png" alt="shop" class="shop" >Shop</h2>
-      <h2 class="menuitem">Exit account</h2>
+      <h2 class="menuitem backToGame">
+          <input type="text" class="name" placeholder="Введіть ім'я">
+          <button class="nameInstal">OK</button>
+      </h2>
+      <h2 class="menuitem" data-toggle="modal" data-target="#staticBackdrop"><img src="img/shop.png" alt="shop" class="shop">Garage</h2>
+      <h2 class="menuitem exitButton"><img class="exit" src="img/exit.png" alt="exit">Exit account</h2>
     </div>
 
-  <img class="exit" src="img/exit.png" alt="exit">
   <div class="moneyContainer"><span class="money">0</span> <img src="img/bitcoin.png" alt="money"></div>
 
   <!-- shop -->
@@ -26,22 +28,22 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Shop</h5>
+          <h5 class="modal-title" id="staticBackdropLabel">Garage</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body m-1">
           <div class="row d-flex align-items-center">
-            <div class="col-4"><img src="img/lvl1.png" class="carInShop" alt="car"></div>
+            <div class="col-4"><img src="img/lvl1.png" class="carInShop noBought1" alt="car"></div>
             <div class="col-3">100 <img src="img/bitcoin.png" alt="coins"><img src="img/shopping-cart.png" class="cart cart1" alt="shopping-cart"></div>
           </div>
           <div class="row d-flex align-items-center">
-            <div class="col-4"><img src="img/lvl2.png" class="carInShop" alt="car"></div>
+            <div class="col-4"><img src="img/lvl2.png" class="carInShop noBought2" alt="car"></div>
             <div class="col-3">200 <img src="img/bitcoin.png" alt="coins"><img src="img/shopping-cart.png" class="cart cart2" alt="shopping-cart"></div>
           </div>
           <div class="row d-flex align-items-center">
-            <div class="col-4"><img src="img/lvl3.png" class="carInShop" alt="car"></div>
+            <div class="col-4"><img src="img/lvl3.png" class="carInShop noBought3" alt="car"></div>
             <div class="col-3">300 <img src="img/bitcoin.png" alt="coins"><img src="img/shopping-cart.png" class="cart cart3" alt="shopping-cart"></div>
           </div>
         </div>
@@ -66,7 +68,6 @@
     <script src='https://cdn.jsdelivr.net/mojs/0.265.6/mo.min.js'></script>
 
     <script src="script.js"></script> 
-    <script src="menu.js"></script>
 
 </body>
 </html>

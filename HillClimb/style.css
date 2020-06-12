@@ -5,6 +5,16 @@
 #canvas {
   z-index: 1000;
 }
+
+.noBought1, 
+.noBought2, 
+.noBought3 {
+  opacity:0.1;
+  -moz-opacity:0.8;
+  filter: alpha(opacity=80) black;
+  -khtml-opacity: 0.8;
+  z-index: 1000;
+}
 .stop {
     position: absolute;
     left: 50px;
@@ -26,25 +36,27 @@
     bottom: 30px;
     display: none;
 }
-.shop {
+.shop, .exit {
     width: 50px;
     height: 50px;
     margin-right: 15px;
 }
+.backToGame {
+  display: none;
+}
+.name, .nameInstal {
+  background: transparent;
+  border: 1px solid snow;
+  color: wheat;
+}
 .moneyContainer {
     position: absolute;
     top: 30px;
-    right: 100px;
+    right: 30px;
     width: auto;
     height: 50px;
 }
-.exit {
-    position: absolute;
-    top: 30px;
-    right: 10px;
-    width: auto;
-    height: 50px;
-}
+
 .cart {
     width: 30px;
     height: 30px;

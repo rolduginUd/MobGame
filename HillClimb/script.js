@@ -2,11 +2,16 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 
 let progress = document.getElementById("myBar");
-let money = 0;
+
 let coinImg = new Image();
 coinImg.src = "img/bitcoin.png"
-const exit = document.querySelector('.exit');
 
+const exit = document.querySelector('.exitButton');
+
+let moneyContainer = document.querySelector('.money');
+let money = 0;
+
+let backToGame = document.querySelector('.backToGame');
 
 let stopBtn = document.querySelector('.stop');
 let runBtn = document.querySelector('.run');
@@ -22,26 +27,35 @@ const checkOrientation = () => {
     }
 }
 if (window.matchMedia("(max-width: 800px)").matches) {
-    rotateControl = 0.03
+    rotateControl = 0.03; // швидкість повороту машини на моб
     stopBtn.style.display = 'block';
     runBtn.style.display = 'block';
 }
-document.body.appendChild(canvas);
-// window.onload = () => {
-//     if(!window.player) {
-//         localStorage.player = prompt("Введіть логін")
-//     }
-// }
+
 window.onload = () => {
-    if(!localStorage.player) {
-        let name = prompt('Введите имя')
-        localStorage.player = name;
+    let cross = spanOne.classList.contains("white");
+
+    modalMenu.classList.toggle("show");
+    timelineOpen.play();
+
+    for (let i = 0; i < spans.length; i++) {
+      spans[i].classList.add("white");
+    }
+
+    spanOne.classList.add("spanOneRotate");
+    spanTwo.classList.add("spanTwoRotate");
+    spanThree.classList.add("spanThreeHide");
+
+    if(!localStorage.name) {
+        backToGame.style.display = 'block';
         localStorage.money = 0;
-        console.log('-money')
     }
     else{
-        localStorage.money = money;
+        backToGame.style.display = 'none';
+        money = localStorage.money;
+        moneyContainer.textContent = ' ';
     }
+    moneyContainer.textContent = money;
 }
 
 let perm = [];
@@ -84,7 +98,6 @@ let car = new function () { // гравець і його параметри
         this.y += this.speedY;
 
         if(onGround && Math.abs(this.rotate) > 1.6) { // смерть пожила
-            // location.reload();
             this.x = canvas.width / 3;
             this.y = 0;
             this.speedY = 0;
@@ -140,14 +153,16 @@ let car = new function () { // гравець і його параметри
         this.rotate -= this.speedX * 0.1;
         if(this.rotate > Math.PI){
             this.rotate = -Math.PI;
-            money+= 50;
+            money+= 500;
             localStorage.money = money;
+            moneyContainer.textContent = money;
         } 
         if(this.rotate < -Math.PI)
         {
             this.rotate = Math.PI;
-            money+= 50;
+            money+= 500;
             localStorage.money = money;
+            moneyContainer.textContent = money;
         } 
         ctx.save();
         ctx.translate(this.x, this.y);
@@ -162,6 +177,7 @@ let car = new function () { // гравець і його параметри
     }
 }
 
+
 let time = 0; 
 let speed = 0;
 
@@ -175,9 +191,6 @@ const controller = { // контроллер
 onkeydown = somekey => controller[somekey.key] = 1;
 onkeyup = somekey => controller[somekey.key] = 0;
  
-exit.onclick = () => {
-    localStorage.clear();
-}
 //покупка
 document.querySelector('.cart1').onclick = () => {
     if(money >= 100) {
@@ -185,8 +198,10 @@ document.querySelector('.cart1').onclick = () => {
         $('#staticBackdrop').modal('hide');
         money = money - 100;
         localStorage.money = money;
+        moneyContainer.textContent = localStorage.money;
+        document.querySelector('.noBought1').classList.remove('noBought1');
     }else {
-        alert('У вас не достаточно денег')
+        alert('У вас не достаточно денег');
     }
 }
 document.querySelector('.cart2').onclick = () => {
@@ -195,6 +210,8 @@ document.querySelector('.cart2').onclick = () => {
         $('#staticBackdrop').modal('hide');
         money = money - 200;
         localStorage.money = money;
+        moneyContainer.textContent = localStorage.money;
+        document.querySelector('.noBought1').classList.remove('noBought2');
     }else {
         alert('У вас не достаточно денег')
     }
@@ -205,6 +222,8 @@ document.querySelector('.cart3').onclick = () => {
         $('#staticBackdrop').modal('hide');
         money = money - 300;
         localStorage.money = money;
+        moneyContainer.textContent = localStorage.money;
+        document.querySelector('.noBought1').classList.remove('noBought3');
     }else {
         alert('У вас не достаточно денег')
     }
@@ -237,7 +256,7 @@ let coinSpawn = false;
 function spawner() {
 
     if (coinSpawn) return;
-    coinY = (canvas.height - noise(time + canvas.width) * 0.25) - 35;  
+    coinY = (canvas.height - noise(time + canvas.width) * 0.25) + 735;  
     coinSpawn = true;
 }
 
@@ -245,7 +264,6 @@ function loop() {
     fuel();
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
-    document.querySelector('.money').innerHTML = localStorage.money;
     ctx.fillStyle = "#19f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -271,3 +289,117 @@ function loop() {
 }
 
 loop();
+
+
+
+
+// -----------------------------------Меню----------------------------
+
+
+document.querySelector('.nameInstal').onclick = () => {
+    localStorage.name =  document.querySelector('.name').value;
+    backToGame.style.display = 'none';
+}
+
+exit.onclick = () => {
+    localStorage.clear();
+    location.reload();
+}
+
+let timelineOpen = new mojs.Timeline({ speed: 1.5 });
+let timelineClose = new mojs.Timeline({ speed: 2 });
+
+let _strokeWidth;
+let RADIUS = 15;
+let hamburger = document.querySelector(".hamburger-open");
+
+let spans = document.getElementsByClassName("spans");
+let spanOne = document.querySelector("#spanOne");
+let spanTwo = document.querySelector("#spanTwo");
+let spanThree = document.querySelector("#spanThree");
+
+let modalMenu = document.querySelector(".modal-menu");
+
+let burst1 = new mojs.Burst({
+  parent: hamburger,
+  x: "50%",
+  y: "50%",
+  angle: { 0: 90 },
+  radius: { 30: 45 },
+  count: 3,
+  children: {
+    shape: "circle",
+    radius: RADIUS,
+    scale: { 1: 0 },
+    fill: ["#ff4338", "#00b3e3", "#3cd52e"],
+    duration: 2000,
+    easing: "quad.out"
+  }
+});
+
+let burst2 = new mojs.Burst({
+  parent: hamburger,
+  x: "50%",
+  y: "50%",
+  angle: { 0: 90 },
+  radius: { 30: 45 },
+  count: 3,
+  children: {
+    shape: "circle",
+    radius: RADIUS,
+    scale: { 0: 1 },
+    strokeWidth: { 1: 3 },
+    opacity: { 1: 0 },
+    fill: "transparent",
+    stroke: ["#ff4338", "#00b3e3", "#3cd52e"],
+    duration: 2000,
+    easing: "quad.out"
+  }
+});
+
+// OPEN
+let openBackground = new mojs.Shape({
+  fill: "#111820",
+  scale: { 0: 8.5 },
+  radius: 200,
+  delay: 1000,
+  easing: "cubic.out",
+  backwardEasing: "ease.out",
+  duration: 2000
+});
+
+burst1.el.style.zIndex = 2;
+
+
+let cross = spanOne.classList.contains("white");
+
+timelineOpen.add(burst1, burst2, openBackground);
+
+timelineClose.add(openBackground);
+
+hamburger.addEventListener("click", function(e) {
+
+  let cross = spanOne.classList.contains("white");
+
+  modalMenu.classList.toggle("show");
+
+  if (cross) {
+    timelineClose.playBackward();
+    for (let i = 0; i < spans.length; i++) {
+      spans[i].classList.remove("white");
+    }
+    spanOne.classList.remove("spanOneRotate");
+    spanTwo.classList.remove("spanTwoRotate");
+    spanThree.classList.remove("spanThreeHide");
+  } else {
+    timelineOpen.play();
+
+    for (let i = 0; i < spans.length; i++) {
+      spans[i].classList.add("white");
+    }
+
+    spanOne.classList.add("spanOneRotate");
+    spanTwo.classList.add("spanTwoRotate");
+    spanThree.classList.add("spanThreeHide");
+  }
+});
