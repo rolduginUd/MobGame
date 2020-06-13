@@ -313,12 +313,13 @@ function fuelAndCount () {
     if(controller.s > 0) {
         fuelCounter -= 0.07;
     }
-
     if(fuelCounter < 0) {
         controller.w = 0;
         controller.s = 0;
         controller.a = 0;
         controller.b = 0;
+        if(speed <= 0.01)
+            death();
     }
     record < Math.floor(time/10) && speed > 0 ? record = Math.floor(time/10) : null; 
     progress.style.width = fuelCounter + "%";
@@ -334,14 +335,15 @@ let check = 0;
 let endCheck = false;
 let yPosition; 
 let xPosition;
+let coinRange = 0;
 function spawner(x,y) {
-    if(endCheck && record > check && timer%rand == 0 && speed > 0) {
+    if(endCheck && record > check && timer % rand == 0 && speed > 0 && x > coinRange + 20) {
         coin.push({x:x,y:y});
+        coinRange = x;
         check = record;
     }
     if(endCheck && Math.floor(fuelCounter)%10 && fuel.length < 1) {
         fuel.push({x:x,y:y});
-        console.log("spawn");
     }
 }
 function game() {
@@ -352,13 +354,13 @@ function game() {
 }
 function update() {
     speed -= (speed - (controller.w - controller.s)) * 0.01;
-    time += 5 * speed ;
+    time += 5 * speed;
     timer += 1;
     dx = canvas.width - time;
     rand = Math.floor(Math.random()*(150-50)+50);
 
     for(i in coin){
-        if((coin[i].x + dx <= car.x + 50 && coin[i].x + dx >= car.x - 50) && (car.y + 45 >= coin[i].y && car.y - 45 <= coin[i].y)){
+        if((coin[i].x + dx <= car.x + 50 && coin[i].x + dx >= car.x - 50) && (car.y + 30 >= coin[i].y && car.y - 35 <= coin[i].y)){
             money += 50;
             localStorage.money = money;
             moneyContainer.innerHTML = money;
@@ -366,7 +368,7 @@ function update() {
         }
     }
     for(i in fuel){
-        if((fuel[i].x + dx <= car.x + 50 && fuel[i].x + dx >= car.x - 50) && (car.y + 45 >= fuel[i].y && car.y - 45 <= fuel[i].y)){
+        if((fuel[i].x + dx <= car.x + 50 && fuel[i].x + dx >= car.x - 50) && (car.y + 30 >= fuel[i].y && car.y - 35 <= fuel[i].y)){
             fuelCounter += 20;
             fuel.splice(i,1);
         }
@@ -385,7 +387,7 @@ function render() {
             yPosition = ((canvas.height - noise(canvas.width + time + i) * 0.25) - 35);
             xPosition = canvas.width + time - 10;
         }
-        spawner(xPosition,yPosition);
+        spawner(xPosition, yPosition, i);
     }
     endCheck = false;
     for(i in coin) {
