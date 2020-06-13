@@ -329,7 +329,9 @@ function render() {
     for(let i = 0; i < coin.length; i++) {
         ctx.drawImage(coinImg, coin[i].x + dx, coin[i].y);
             if((coin[i].x + dx <= car.x + 50 && coin[i].x + dx >= car.x - 50) && (car.y + 45 >= coin[i].y && car.y - 45 <= coin[i].y)){
-                console.log(coin[i].y);
+                money += 50;
+                localStorage.money = money;
+                moneyContainer.innerHTML = money;
                 coin.splice(i,1);
             }
     }
