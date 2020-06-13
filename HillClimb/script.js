@@ -22,6 +22,7 @@ let record = 0;
 let car1 = false;
 let car2 = false;
 let car3 = false;
+let youAreDie = false;
 
 setInterval(() => {
     checkOrientation();
@@ -129,11 +130,8 @@ let car = new function () { // гравець і його параметри
         this.y += this.speedY;
 
         if(onGround && Math.abs(this.rotate) > 1.6) { // смерть пожила
-            // this.x = canvas.width * 3;
-            // this.y = 0;
-            this.speedY = 0;
-            this.speedX = 0;
-            this.rotate = 0;
+            speed = 0;
+           
             controller.w = 0;
             controller.s = 0;
             controller.a = 0;
@@ -189,7 +187,9 @@ let car = new function () { // гравець і його параметри
         if(onGround) { 
             this.rotate -=(this.rotate - angle) * 0.5;
             this.speedX = this.speedX - (angle - this.rotate);
-
+            if(youAreDie) {
+                this.rotate = 180;
+            }
         } 
         this.speedX += (controller.a - controller.d) * 0.05;
         
@@ -212,7 +212,7 @@ let car = new function () { // гравець і його параметри
         ctx.rotate(this.rotate);
 
         if (window.matchMedia("(max-width: 1000px)").matches) {
-            ctx.drawImage(this.img, -40, -25, 70, 60);
+            ctx.drawImage(this.img, -35, -20, 70, 60);
         }else{
             ctx.drawImage(this.img, -40, -45, 100, 90);
         }
@@ -538,6 +538,7 @@ closeMenu = function () {
 }
 
 death = function() {
+    youAreDie = true;
     if(!localStorage.record) {
         parseInt(record);
         document.querySelector('.theBestRecord').innerHTML = record;
