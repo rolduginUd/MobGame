@@ -196,16 +196,20 @@ let car = new function () { // гравець і його параметри
         this.rotate -= this.speedX * 0.1;
         if(this.rotate > Math.PI){
             this.rotate = -Math.PI;
-            money += 500;
+            if (!youAreDie) {
+                   money += 500;
             localStorage.money = money;
             moneyContainer.innerHTML = money;
+            }
         } 
         else if(this.rotate < -Math.PI)
         {
             this.rotate = Math.PI;
-            money += 500;
+            if (!youAreDie) {
+                   money += 500;
             localStorage.money = money;
             moneyContainer.innerHTML = money;
+            }
         } 
         ctx.save();
         ctx.translate(this.x, this.y);
