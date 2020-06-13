@@ -212,7 +212,7 @@ let car = new function () { // гравець і його параметри
         ctx.rotate(this.rotate);
 
         if (window.matchMedia("(max-width: 1000px)").matches) {
-            ctx.drawImage(this.img, -40, -25, 70, 60);
+            ctx.drawImage(this.img, -35, -20, 70, 60);
         }else{
             ctx.drawImage(this.img, -40, -45, 100, 90);
         }
