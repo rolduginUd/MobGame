@@ -58,8 +58,9 @@ function render() {
     ctx.moveTo(0, canvas.height);
     for(let i = 0; i < canvas.width; i++) {
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
-        spawner();
+       
     }
+    spawner();
     coinX = canvas.width - time;
 
     ctx.drawImage(coinImg,coinX,coinY);

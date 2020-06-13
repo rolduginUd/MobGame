@@ -284,38 +284,24 @@ function fuelAndCount () {
         fuelCounter -= 0.04;
     }
 
-    if(fuelCounter < 0){
-        //fuelCounter = 1;
+    if(fuelCounter < 0) {
         controller.w = 0;
         controller.s = 0;
         controller.a = 0;
         controller.b = 0;
-        //alert("заправся бомж");
     }
-    if(record < Math.floor(time/10) && speed > 0)
-        record = Math.floor(time/10); 
+    record < Math.floor(time/10) && speed > 0 ? record = Math.floor(time/10) : null; 
     progress.style.width = fuelCounter + "%";
     recordContainer.innerHTML = Math.floor(record);
 }
 //монетки
-let coinX = 1;
-let coinY;
-let coinSpawn = false;
-let timer = 0;
-
-function spawner(i) {
-    //if (coinSpawn) return;
-    
-    //coinSpawn = true;
-}
 let coin = [];
-coin.push({x:canvas.width - car.x,y:0});
+let timer = 0;
 let dx = 0;
 let rand = 0;
 let check = 0;
 function game() {
     fuelAndCount();
-    timer += 1;
     update();
     render();
     requestAnimationFrame(game);
@@ -323,6 +309,7 @@ function game() {
 function update() {
     speed -= (speed - (controller.w - controller.s)) * 0.01;
     time += 5 * speed;
+    timer += 1;
     dx = canvas.width - time;
     rand = Math.floor(Math.random()*(150-50)+50);
 }
@@ -334,22 +321,20 @@ function render() {
     ctx.moveTo(0, canvas.height);
     for(let i = 0; i < canvas.width; i++){
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
-    }
-    
-    for(let i = 0; i < coin.length; i++) {
-        if(record > check && timer%rand == 0){
-            coin.push({x:canvas.width + Math.floor(time), y:((canvas.height - noise(canvas.width) * 0.25) - 40)});
+        if(i == canvas.width - 1 && record > check && timer%rand == 0 && speed > 0 && timer % 4 == 0){
+            coin.push({x:canvas.width + time - 10,y:((canvas.height - noise(canvas.width + time + i) * 0.25) - 35)});
             check = record;
-            //coinSpawn =false;
         }
-        //coin[i].y = ; 
-        ctx.drawImage(coinImg,coin[i].x + dx,coin[i].y);
-            if(coin[i].x + dx < car.x)
+    }
+    for(let i = 0; i < coin.length; i++) {
+        ctx.drawImage(coinImg, coin[i].x + dx, coin[i].y);
+            if((coin[i].x + dx <= car.x + 50 && coin[i].x + dx >= car.x - 50) && (car.y + 45 >= coin[i].y && car.y - 45 <= coin[i].y)){
+                console.log(coin[i].y);
                 coin.splice(i,1);
+            }
     }
     ctx.lineTo(canvas.width, canvas.height);
     ctx.fill();
-    //spawner(canvas.height - noise(canvas.width + time) * 0.25);
     car.draw();
 }
 game();
