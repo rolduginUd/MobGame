@@ -374,7 +374,7 @@ function update() {
     }
     for(i in fuel){
         if((fuel[i].x + dx <= car.x + 50 && fuel[i].x + dx >= car.x - 50) && (car.y + 30 >= fuel[i].y && car.y - 35 <= fuel[i].y)){
-            fuelCounter += 20;
+            fuelCounter += 15;
             fuel.splice(i,1);
         }
     }
