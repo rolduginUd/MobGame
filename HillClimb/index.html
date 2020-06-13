@@ -9,7 +9,23 @@
 </head>
 <body>
   <canvas id="canvas"></canvas>
-  
+
+  <div class="modal fade" id="totalScore" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content trnsp">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Total Score</h5>
+        
+        </div>
+        <div class="modal-body">
+          <span class="theBestRecord"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Restart</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- menu -->
   <div class="hamburger-open"><span class="spans" id="spanOne"></span><span class="spans" id="spanTwo"></span><span class="spans" id="spanThree"></span></div>
     <div class="modal-menu">
@@ -23,6 +39,7 @@
 
   <div class="moneyContainer"><span class="money">0</span> <img src="img/bitcoin.png" alt="money"></div>
   <div class="rotate" ><img src="img/rotation.png" alt=""></div>
+
   <!-- shop -->
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -50,6 +67,11 @@
       </div>
     </div>
   </div>
+    <div class="records">
+      <div class="recordConteiner"><span class="record">0</span></div> / 
+      <div class="theBest"></div>
+      <img src="img/distance.png" alt="distance">
+    </div>
 
   <!-- fuel indicator -->
 <img src="img/fuel.png" class="fuel" alt="fuel">
@@ -58,7 +80,6 @@
 </div>
 
   <!--record-->
-<div class="recordConteiner"><span class="record">0</span></div>
 
     <!-- Педалі для моб. вресії -->
   <div class="stop"></div>

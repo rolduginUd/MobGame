@@ -36,22 +36,23 @@ if (window.matchMedia("(max-width: 1000px)").matches) {
 }
 
 window.onload = () => {
-    // let cross = spanOne.classList.contains("white");
-
-    // modalMenu.classList.toggle("show");
-    // timelineOpen.play();
-
-    // for (let i = 0; i < spans.length; i++) {
-    //   spans[i].classList.add("white");
-    // }
-
-    // spanOne.classList.add("spanOneRotate");
-    // spanTwo.classList.add("spanTwoRotate");
-    // spanThree.classList.add("spanThreeHide");
-
     if(!localStorage.name) {
+        let cross = spanOne.classList.contains("white");
+
+        modalMenu.classList.toggle("show");
+        timelineOpen.play();
+    
+        for (let i = 0; i < spans.length; i++) {
+          spans[i].classList.add("white");
+        }
+    
+        spanOne.classList.add("spanOneRotate");
+        spanTwo.classList.add("spanTwoRotate");
+        spanThree.classList.add("spanThreeHide");
+
         backToGame.style.display = 'block';
         localStorage.money = 0;
+        localStorage.record = 0;
     }
     else{
         backToGame.style.display = 'none';
@@ -59,6 +60,7 @@ window.onload = () => {
     }
     money = parseInt(money);
     moneyContainer.innerHTML = money;
+    document.querySelector('.theBest').innerHTML = localStorage.record;
 }
 window.addEventListener( 'orientationchange', () => {
     location.reload();
@@ -117,6 +119,24 @@ let car = new function () { // гравець і його параметри
             controller.s = 0;
             controller.a = 0;
             controller.b = 0;
+            if(!localStorage.record) {
+                parseInt(record);
+                document.querySelector('.theBestRecord').innerHTML = record;
+                localStorage.record = record;
+            } else {
+                parseInt(record)
+                if(record > localStorage.record) {
+                    document.querySelector('.theBestRecord').innerHTML = record;
+                    localStorage.record = record;
+                } else {
+                    document.querySelector('.theBestRecord').innerHTML = localStorage.record;
+                }
+            }
+            $('#totalScore').modal('show');
+            window.stop(a);
+        }
+        document.querySelector('.btn-secondary').onclick = () => {
+            location.reload();
         }
 
         // контроллер для моб.
@@ -134,24 +154,31 @@ let car = new function () { // гравець і його параметри
         }
         if (window.matchMedia("(max-width: 1000px)").matches) {
             if(!onGround && this.y < (p1 - 45) ) { 
-                console.log('не на землі', this.y)
-                controller.w = 0;
-                controller.s = 0;
+                // console.log('не на землі', this.y)
+
                 runBtn.ontouchstart = () => {
                     controller.w = 1;
                     controller.d = 1;
+                    console.log('нажав ВПЕРЕД');
                 }
                 runBtn.ontouchend = () => {
                     controller.w = 0;
                     controller.d = 0;
+                    controller.s = 0;
+                    controller.a = 0;
+                    console.log('отпустив ВПЕРЕД');
                 }
                 stopBtn.ontouchstart = () => {
-                    controller.w = 1;
-                    controller.a= 1;
+                    controller.s = 1;
+                    controller.a = 1;
+                    console.log('нажав НАЗАД');
                 }
                 stopBtn.ontouchend = () => {
-                    controller.w = 0;
+                    controller.s = 0;
                     controller.a = 0;
+                    controller.w = 0;
+                    controller.d = 0;
+                    console.log('отпустив НАЗАД');
                 }
             } 
         }
@@ -309,7 +336,6 @@ function render() {
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
     }
     
-    //console.log(record);
     for(let i = 0; i < coin.length; i++) {
         if(record > check && timer%rand == 0){
             coin.push({x:canvas.width + Math.floor(time), y:((canvas.height - noise(canvas.width) * 0.25) - 40)});
@@ -333,10 +359,7 @@ game();
 // -----------------------------------Меню----------------------------
 
 
-document.querySelector('.nameInstal').onclick = () => {
-    localStorage.name =  document.querySelector('.name').value;
-    backToGame.style.display = 'none';
-}
+
 
 exit.onclick = () => {
     localStorage.clear();
@@ -413,6 +436,23 @@ let cross = spanOne.classList.contains("white");
 timelineOpen.add(burst1, burst2, openBackground);
 
 timelineClose.add(openBackground);
+
+document.querySelector('.nameInstal').onclick = () => {
+    localStorage.name =  document.querySelector('.name').value;
+    backToGame.style.display = 'none';
+
+    let cross = spanOne.classList.contains("white");
+
+  modalMenu.classList.toggle("show");
+    
+    timelineClose.playBackward();
+    for (let i = 0; i < spans.length; i++) {
+      spans[i].classList.remove("white");
+    }
+    spanOne.classList.remove("spanOneRotate");
+    spanTwo.classList.remove("spanTwoRotate");
+    spanThree.classList.remove("spanThreeHide");
+}
 
 hamburger.addEventListener("click", function(e) {
 
