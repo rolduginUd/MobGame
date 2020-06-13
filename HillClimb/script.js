@@ -147,37 +147,37 @@ let car = new function () { // гравець і його параметри
             if(!onGround && this.y < (p1 - 35) ) { 
                 runBtn.ontouchstart = () => {
                     controller.w = 0;
-                    controller.d = 1;
+                    controller.a = 1;
                     console.log('воздух')
                 }
                 runBtn.ontouchend = () => {
                     controller.w = 0;
-                    controller.d = 0;
+                    controller.a = 0;
                 }
                 stopBtn.ontouchstart = () => {
-                    controller.a = 1;
+                    controller.d = 1;
                     controller.s = 0;
                 }
                 stopBtn.ontouchend = () => {
-                    controller.a = 0;
+                    controller.d = 0;
                     controller.s = 0;
                 }
             }else {     
                     runBtn.ontouchstart = () => {
-                        controller.d = 0;
+                        controller.a = 0;
                         controller.w = 1;
                         console.log('на землі')
                     }
                     runBtn.ontouchend = () => {
-                        controller.d = 0;
+                        controller.a = 0;
                         controller.w = 0;
                     }
                     stopBtn.ontouchstart = () => {
-                        controller.a = 0;
+                        controller.d = 0;
                         controller.s = 1;
                     }
                     stopBtn.ontouchend = () => {
-                        controller.a = 0;
+                        controller.d = 0;
                         controller.s = 0;
                     }
                 }
@@ -340,13 +340,14 @@ let endCheck = false;
 let yPosition; 
 let xPosition;
 let coinRange = 0;
+
 function spawner(x,y) {
     if(endCheck && record > check && timer % rand == 0 && speed > 0 && x > coinRange + 20) {
         coin.push({x:x,y:y});
         coinRange = x;
         check = record;
     }
-    if(endCheck && Math.floor(fuelCounter)%10 && fuel.length < 1) {
+    if(endCheck && Math.floor(fuelCounter) % 10 && fuel.length < 1) {
         fuel.push({x:x,y:y});
     }
 }
