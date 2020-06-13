@@ -5,6 +5,8 @@ let progress = document.getElementById("myBar");
 
 let coinImg = new Image();
 coinImg.src = "img/bitcoin.png"
+let fuelImg = new Image();
+fuelImg.src = "img/fuel.png"
 
 const exit = document.querySelector('.exitButton');
 
@@ -278,10 +280,10 @@ document.querySelector('.cart3').onclick = () => {
 let fuelCounter = 100;
 function fuelAndCount () {
     if(controller.w > 0) {
-        fuelCounter -= 0.04;
+        fuelCounter -= 0.07;
     }
     if(controller.s > 0) {
-        fuelCounter -= 0.04;
+        fuelCounter -= 0.07;
     }
 
     if(fuelCounter < 0) {
@@ -294,12 +296,26 @@ function fuelAndCount () {
     progress.style.width = fuelCounter + "%";
     recordContainer.innerHTML = Math.floor(record);
 }
-//монетки
+//монетки и бензин
 let coin = [];
+let fuel = [];
 let timer = 0;
 let dx = 0;
 let rand = 0;
 let check = 0;
+let endCheck = false;
+let yPosition; 
+let xPosition;
+function spawner(x,y) {
+    if(endCheck && record > check && timer%rand == 0 && speed > 0) {
+        coin.push({x:x,y:y});
+        check = record;
+    }
+    if(endCheck && Math.floor(fuelCounter)%10 && fuel.length < 1) {
+        fuel.push({x:x,y:y});
+        console.log("spawn");
+    }
+}
 function game() {
     fuelAndCount();
     update();
@@ -312,6 +328,21 @@ function update() {
     timer += 1;
     dx = canvas.width - time;
     rand = Math.floor(Math.random()*(150-50)+50);
+
+    for(i in coin){
+        if((coin[i].x + dx <= car.x + 50 && coin[i].x + dx >= car.x - 50) && (car.y + 45 >= coin[i].y && car.y - 45 <= coin[i].y)){
+            money += 50;
+            localStorage.money = money;
+            moneyContainer.innerHTML = money;
+            coin.splice(i,1);
+        }
+    }
+    for(i in fuel){
+        if((fuel[i].x + dx <= car.x + 50 && fuel[i].x + dx >= car.x - 50) && (car.y + 45 >= fuel[i].y && car.y - 45 <= fuel[i].y)){
+            fuelCounter += 20;
+            fuel.splice(i,1);
+        }
+    }
 }
 function render() {
     ctx.fillStyle = "#19f";
@@ -321,19 +352,19 @@ function render() {
     ctx.moveTo(0, canvas.height);
     for(let i = 0; i < canvas.width; i++){
         ctx.lineTo(i, canvas.height - noise(time + i) * 0.25);
-        if(i == canvas.width - 1 && record > check && timer%rand == 0 && speed > 0 && timer % 4 == 0){
-            coin.push({x:canvas.width + time - 10,y:((canvas.height - noise(canvas.width + time + i) * 0.25) - 35)});
-            check = record;
+        if(i == canvas.width - 1) {
+            endCheck = true;
+            yPosition = ((canvas.height - noise(canvas.width + time + i) * 0.25) - 35);
+            xPosition = canvas.width + time - 10;
         }
+        spawner(xPosition,yPosition);
     }
-    for(let i = 0; i < coin.length; i++) {
+    endCheck = false;
+    for(i in coin) {
         ctx.drawImage(coinImg, coin[i].x + dx, coin[i].y);
-            if((coin[i].x + dx <= car.x + 50 && coin[i].x + dx >= car.x - 50) && (car.y + 45 >= coin[i].y && car.y - 45 <= coin[i].y)){
-                money += 50;
-                localStorage.money = money;
-                moneyContainer.innerHTML = money;
-                coin.splice(i,1);
-            }
+    }       
+    for (i in fuel){
+        ctx.drawImage(fuelImg, fuel[i].x + dx, fuel[i].y);
     }
     ctx.lineTo(canvas.width, canvas.height);
     ctx.fill();
