@@ -280,4 +280,7 @@ body {
   .menuitem {
     font-size: 15px;
   }
+  .info {
+    display: none !important;
+  }
 }
