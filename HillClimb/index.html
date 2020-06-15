@@ -39,6 +39,9 @@
 
   <div class="moneyContainer"><span class="money">0</span> <img src="img/bitcoin.png" alt="money"></div>
   <div class="rotate" ><img src="img/rotation.png" alt=""></div>
+  <a tabindex="0" class="info btn" role="button" data-toggle="popover" data-trigger="focus" title="Controller" data-content="Use w/a/s/d keys in english)">
+    <img src="img/info.png" alt="">
+  </a>
 
   <!-- shop -->
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -92,6 +95,13 @@
     <script src='https://cdn.jsdelivr.net/mojs/0.265.6/mo.min.js'></script>
 
     <script src="script.js"></script> 
-
+<script>
+  $('.popover-dismiss').popover({
+  trigger: 'focus'
+})
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+</script>
 </body>
 </html>

@@ -68,7 +68,13 @@
   right: 30px;
   width: auto;
   height: 50px;
-   
+}
+
+.info {
+  position: absolute;
+  top: 30px;
+  right: 130px;
+  z-index: 10000;
 }
 
 .records {
