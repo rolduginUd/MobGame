@@ -81,6 +81,16 @@ window.onload = () => {
         document.querySelector('.noBought3').classList.remove('noBought3');
         document.querySelector('.cart3').src = 'img/click.png';
     }
+
+    if(localStorage.lastCar == 1) {
+        car.img.src = "img/lvl1.png";
+    }
+    if(localStorage.lastCar == 2) {
+        car.img.src = "img/lvl2.png";
+    }
+    if(localStorage.lastCar == 3) {
+        car.img.src = "img/lvl3.png";
+    }
 }
 window.addEventListener( 'orientationchange', () => {
     location.reload();
@@ -251,7 +261,7 @@ document.querySelector('.cart1').onclick = () => {
         document.querySelector('.noBought1').classList.remove('noBought1');
         localStorage.car1 = true;
         closeMenu();
-
+        localStorage.lastCar = 1;
     }else {
         alert('У вас не достаточно денег');
     }
@@ -259,6 +269,7 @@ document.querySelector('.cart1').onclick = () => {
     car.img.src = "img/lvl1.png";
     $('#staticBackdrop').modal('hide');
     closeMenu();
+    localStorage.lastCar = 1;
   }
   
 }
@@ -273,6 +284,7 @@ document.querySelector('.cart2').onclick = () => {
             document.querySelector('.noBought2').classList.remove('noBought2');
             localStorage.car2 = true;
             closeMenu();
+            localStorage.lastCar = 2;
         }else {
             alert('У вас не достаточно денег');
         }
@@ -280,6 +292,7 @@ document.querySelector('.cart2').onclick = () => {
         car.img.src = "img/lvl2.png";
         $('#staticBackdrop').modal('hide');
         closeMenu();
+        localStorage.lastCar = 2;
       }
       
 }
@@ -294,6 +307,7 @@ document.querySelector('.cart3').onclick = () => {
             document.querySelector('.noBought3').classList.remove('noBought3');
             localStorage.car3 = true;
             closeMenu();
+            localStorage.lastCar = 3;
         }else {
             alert('У вас не достаточно денег');
         }
@@ -301,6 +315,7 @@ document.querySelector('.cart3').onclick = () => {
         car.img.src = "img/lvl3.png";
         $('#staticBackdrop').modal('hide');
         closeMenu();
+        localStorage.lastCar = 3;
       }
       
 }
